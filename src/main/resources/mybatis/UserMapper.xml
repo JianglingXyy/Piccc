@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.picture.mapper.UserMapper">
+    <select id="queryUserByUId" resultType="User" parameterType="java.lang.Integer">
+        select  * from userInfo where uid = #{uid}
+    </select>
+    <select id="queryUserByName" resultType="User" parameterType="java.lang.String">
+        select  * from  userInfo where name = #{name}
+    </select>
+
+    <insert id="insertUser" parameterType="com.example.picture.pojo.User" >
+        insert into userInfo(uid,pwd,name,gender,mail,headIcon,subscribers,fans,likes)
+        values (#{uid},#{pwd},#{name},#{gender},#{mail},null,0,0,0)
+    </insert>
+    <select id="queryUserByMail" resultType="User" parameterType="java.lang.String">
+        select *  from userInfo where mail = #{mail};
+    </select>
+    <select id="getLastUId" resultType="java.lang.Integer">
+        SELECT LAST_INSERT_ID();
+    </select>
+    <update id="updateFollow" parameterType="com.example.picture.pojo.Subscribe">
+        update userInfo set fans = fans +#{status} where uid = #{uid_follow};
+    </update>
+    <update id="updateSubscribe" parameterType="com.example.picture.pojo.Subscribe">
+        update userInfo set subscribers = subscribers+#{status} where uid = #{uid};
+    </update>
+    <select id="getUsers" resultType="com.example.picture.pojo.User">
+        select * from userInfo where uid in
+        <foreach collection="uids" item="item" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </select>
+    <select id="isExist" resultType="java.lang.Boolean" parameterType="com.example.picture.pojo.User">
+        select count(*) from userInfo where pwd = #{pwd} and mail= #{mail};
+    </select>
+    <select id="mailExist" resultType="java.lang.Boolean" parameterType="java.lang.String">
+        select count(*) from userInfo where mail = #{mail}
+    </select>
+</mapper>

@@ -1,0 +1,37 @@
+spring:
+  
+  datasource:
+    username: root
+    password: wjlaqy5271
+    url: jdbc:mysql://localhost:3306/test?serverTimezone=UTC&useUnicode=true&characterEncoding=utf-8
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 20MB
+      max-request-size: 20MB
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    password: wjlaqy5271
+  web:
+    resources:
+
+      static-locations:
+  mail:
+    host: smtp.qq.com
+    port: 587
+    username: 2921498363@qq.com
+    password: varzoyskzfnedggc
+    default-encoding: utf-8
+  task:
+    execution:
+      pool:
+        core-size: 4
+        queue-capacity: 20
+        max-size: 4
+mybatis:
+  type-aliases-package: com.example.picture.pojo
+  mapper-locations: classpath:mybatis/*.xml
+
+server:
+  port: 8089

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.picture.mapper.CollectionMapper">
+    <select id="getCollectionList" resultType="java.lang.Integer" parameterType="com.example.picture.pojo.Collections">
+        select collections.pid
+        from collections where uid = #{uid} and status = 1;
+    </select>
+    <select id="exist" resultType="java.lang.Boolean" parameterType="com.example.picture.pojo.Collections" >
+        select count(*) from  collections     where uid = #{uid} and pid = #{pid};
+    </select>
+    <update id="updateCollectionList" parameterType="com.example.picture.pojo.Collections">
+        update collections set collections.status = #{status} where collections.uid = #{uid} and collections.pid = #{pid} ;
+    </update>
+    <insert id="insert" parameterType="com.example.picture.pojo.Collections">
+        insert into collections(uid,pid,status) values (#{uid},#{pid},#{status});
+    </insert>
+    <update id="refreshPicCollectionProperty" parameterType="com.example.picture.pojo.Collections">
+        update picinfo set picinfo.collections = collections + #{status} where pid = #{pid}
+    </update>
+</mapper>

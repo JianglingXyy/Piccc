@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.picture.mapper.PictureMapper">
+    <select id="queryPicturesByCreator" resultType="com.example.picture.pojo.Picture" parameterType="java.lang.Integer">
+    select  * from picInfo where creator = #{creator}
+    </select>
+    <insert id="insertPicture"  parameterType="com.example.picture.pojo.Picture">
+        insert into picInfo(pid,location,creator,type,description,createDate,likes,collections)
+        values (#{pid},#{location},#{creator},#{type},#{description},current_timestamp(),#{likes},#{collections})
+    </insert>
+    <delete id="deletePictureByPid" parameterType="java.lang.Integer">
+        delete from  picInfo where  pid = #{pid}
+    </delete>
+    <select id="queryPictureByPid" resultType="com.example.picture.pojo.Picture" parameterType="java.lang.Integer">
+        select  * from picInfo where pid = #{pid}
+    </select>
+    <select id="queryByType" resultType="com.example.picture.pojo.Picture" parameterType="java.lang.Integer">
+        select  * from picInfo where type = #{type}
+    </select>
+    <update id="addSubscriber" parameterType="java.lang.Integer">
+        update picInfo set subscribe = subscribe + 1 where pid = #{pid}
+    </update>
+    <update id="decreaseSubscribe" parameterType="java.lang.Integer">
+        update picInfo set subscribe = subscribe - 1 where pid = #{pid}
+    </update>
+    <update id="addFavorite" parameterType="java.lang.Integer">
+        update picInfo set favorite = favorite + 1 where pid = #{pid}
+    </update>
+    <update id="decreaseFavorite" parameterType="java.lang.Integer">
+        update picInfo set favorite = favorite - 1 where pid = #{pid}
+    </update>
+    <select id="getPictures" resultType="com.example.picture.pojo.Picture">
+        select * from picInfo where pid in
+        <foreach collection="pids" item="item" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </select>
+    <select id="queryPicturesNew" resultType="com.example.picture.pojo.Picture">
+        select  * from picInfo order by pid desc limit 100
+    </select>
+</mapper>
